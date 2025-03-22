@@ -57,7 +57,9 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Allow requests from your React app
+    "http://localhost:3000",
+    "http://localhost:3002",
+    "http://localhost:3001"  # Allow requests from your React app
 ]
 ROOT_URLCONF = "backend.urls"
 
