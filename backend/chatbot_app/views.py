@@ -20,7 +20,7 @@ from .tickets import *
 
 # Define database path
 db_path = os.path.join(os.path.dirname(__file__), "chatbot.db")
-openai.api_key="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"
+
 llm_pipeline = pipeline("text-generation", model="openai-community/gpt2")# Load model directly
 
 # Load spaCy English model
@@ -62,13 +62,13 @@ class ChatBotAPI(APIView):
             return Response({"error": extracted_data["error"]})
 
         validation_result = validate_ticket_data(extracted_data)
-
+        print(validation_result)
         if "error" in validation_result:
             return Response(validation_result)
 
-        if intent == "create":
+        if intent == "CREATE":
             response = create_ticket(validation_result["ticket_data"])
-        elif intent == "update":
+        elif intent == "UPDATE":
             response = update_ticket(validation_result["ticket_data"], session_id)
         else:
             response = {"error": "Invalid request. Specify 'create' or 'update'."}

@@ -110,7 +110,7 @@ def update_ticket(ticket_data, session_id):
     """
     Updates an existing ticket by finding it in the database and updating only the specified fields.
     """
-    ticket = get_ticket_in_context(session_id, ticket_data.get("ticket_name"))
+    ticket = get_ticket_in_context(session_id, ticket_data.get("name"))
 
     if not ticket:
         return {"error": "No matching ticket found for update. Provide a ticket name."}

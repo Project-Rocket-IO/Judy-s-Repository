@@ -10,6 +10,8 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
+    'tenants',
+    "accounts",
     "daphne",
     "chatbot_app",
     "rest_framework",
@@ -66,7 +68,7 @@ ROOT_URLCONF = "backend.urls"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'researchchat',                      
+        'NAME': 'research',                      
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'localhost',
@@ -74,6 +76,9 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = 'accounts.MSPAuthUser'
+TENANT_MODEL = "tenants.MspCompany"
+TENANT_DOMAIN_MODEL = "tenants.Domain"
 
 ASGI_APPLICATION = "backend.asgi.application"
 CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
