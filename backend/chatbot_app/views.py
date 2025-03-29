@@ -20,7 +20,7 @@ from .tickets import *
 
 # Define database path
 db_path = os.path.join(os.path.dirname(__file__), "chatbot.db")
-
+openai.api_key = "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"
 llm_pipeline = pipeline("text-generation", model="openai-community/gpt2")# Load model directly
 
 # Load spaCy English model
