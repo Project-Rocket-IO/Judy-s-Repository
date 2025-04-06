@@ -100,6 +100,12 @@ npm run dev
 
 ---
 
+##  🚀 NOTE
+
+You will have to create a client in order to create tickets. There are data models which need an intial so that the fk fields on other models can take and submit the item.
+
+---
+
 ## 🎉 You're Live!
 
 Your Django + Next.js AI Agent Bot should now be running locally!  
