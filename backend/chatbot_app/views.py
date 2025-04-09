@@ -17,7 +17,7 @@ from .serializers import ChatHistorySerializer
 
 ### Files
 from .tickets import *
-
+openai.api_key = ""
 # Define database path
 db_path = os.path.join(os.path.dirname(__file__), "chatbot.db")
 openai.api_key="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"
