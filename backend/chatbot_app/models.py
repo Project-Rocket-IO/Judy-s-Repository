@@ -96,7 +96,7 @@ class ChatHistory(models.Model):
     
 class TicketList(models.Model):
     identifier = models.AutoField(primary_key=True) 
-    name = models.CharField(max_length=150)
+    name = models.CharField(max_length=150, unique = True)
     description = RichTextField(default="Add description for Ticket: ", null=True, blank=True)
     client = models.ForeignKey('ClientCompany', on_delete=models.CASCADE)
     assignment = models.ManyToManyField(TechnicianUser)

@@ -3,63 +3,121 @@ import axios from "axios";
 
 export default function ChatBox() {
     const [message, setMessage] = useState("");
-    const [response, setResponse] = useState("");
-    const [isLoading, setIsLoading] = useState(false); // To handle loading state
-    const [error, setError] = useState(null); // To handle errors
+    const [messages, setMessages] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [mode, setMode] = useState("chat");
+
+
+    const toggleMode = (newMode) => {
+        setMode(newMode);
+        setMessages([]);
+    };
 
     const sendMessage = async () => {
         if (!message.trim()) {
-            setError("Please enter a message."); // Validate empty input
+            setError("Please enter a message.");
             return;
         }
 
+        const userMessage = { sender: "user", text: message };
+        setMessages((prev) => [...prev, userMessage]);
+        setMessage("");
         setIsLoading(true);
         setError(null);
 
         try {
-            const res = await axios.post("http://127.0.0.1:8000/chatbot/", { message : message });
-            setResponse(res.data.response);
+            const res = await axios.post("http://127.0.0.1:8000/chatbot/", {
+                message,
+                action_type: mode
+            });
+
+            const botMessage = { sender: "bot", text: res.data.response };
+            setMessages((prev) => [...prev, botMessage]);
         } catch (err) {
-            setError("An error occurred while sending the message."); // Handle API errors
+            setError("An error occurred while sending the message.");
             console.error(err);
         } finally {
-            setIsLoading(false); // Reset loading state
+            setIsLoading(false);
         }
     };
 
     const handleKeyPress = (e) => {
         if (e.key === "Enter") {
-            sendMessage(); // Allow sending message on pressing Enter
+            sendMessage();
         }
     };
 
     return (
-        <div style={{ padding: "20px", maxWidth: "400px", margin: "auto" }}>
-            <h1>Chatbot</h1>
-            <div>
-                <input
-                    type="text"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    disabled={isLoading} // Disable input while loading
-                    placeholder="Type your message..."
-                    style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
-                />
+        <div style={{ padding: "20px", maxWidth: "600px", margin: "auto" }}>
+            <h1>AI Chatbot</h1>
+
+            {/* Tab buttons */}
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
                 <button
-                    onClick={sendMessage}
-                    disabled={isLoading} // Disable button while loading
-                    style={{ width: "100%", padding: "10px", backgroundColor: "#007bff", color: "#fff", border: "none", cursor: "pointer" }}
+                    onClick={() => toggleMode("chat")}
+                    style={{
+                        padding: "10px 20px",
+                        backgroundColor: mode === "chat" ? "#007bff" : "#f1f1f1",
+                        color: mode === "chat" ? "#fff" : "#000",
+                        border: "1px solid #ccc",
+                        cursor: "pointer",
+                        borderRadius: "5px",
+                    }}
                 >
-                    {isLoading ? "Sending..." : "Send"}
+                    General Chat
+                </button>
+                <button
+                    onClick={() => toggleMode("update_ticket")}
+                    style={{
+                        padding: "10px 20px",
+                        backgroundColor: mode === "update_ticket" ? "#28a745" : "#f1f1f1",
+                        color: mode === "update_ticket" ? "#fff" : "#000",
+                        border: "1px solid #ccc",
+                        cursor: "pointer",
+                        borderRadius: "5px",
+                        marginLeft: "10px"
+                    }}
+                >
+                    Update DB
                 </button>
             </div>
-            {error && <p style={{ color: "red" }}>{error}</p>}
-            {response && (
-                <div style={{ marginTop: "20px", padding: "10px", backgroundColor: "#000000", borderRadius: "5px" }}>
-                    <p><strong>Response:</strong> {response}</p>
-                </div>
-            )}
+
+            <div style={{ maxHeight: "300px", overflowY: "auto", padding: "10px", border: "1px solid #ccc", borderRadius: "5px", marginBottom: "10px" }}>
+                {messages.map((msg, idx) => (
+                    <div key={idx} style={{ textAlign: msg.sender === "user" ? "right" : "left", margin: "10px 0" }}>
+                        <strong>{msg.sender === "user" ? "You" : "Bot"}:</strong> {msg.text}
+                    </div>
+                ))}
+                {isLoading && <p>Bot is typing...</p>}
+            </div>
+
+            <input
+                type="text"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                onKeyDown={handleKeyPress}
+                disabled={isLoading}
+                placeholder={mode === "chat" ? "Type your message..." : "Enter ticket details..."}
+                style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
+            />
+
+            <button
+                onClick={sendMessage}
+                disabled={isLoading}
+                style={{
+                    width: "100%",
+                    padding: "10px",
+                    backgroundColor: "#007bff",
+                    color: "#fff",
+                    border: "none",
+                    cursor: "pointer"
+                }}
+            >
+                {isLoading ? "Sending..." : "Send"}
+            </button>
+
+            {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
         </div>
     );
 }
