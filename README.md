@@ -1,44 +1,133 @@
-# Atlas Project
+# 🤖 Django AI Agent Bot App
 
-### First Time Set Up
+An interactive AI-powered chatbot built with Django (backend) and Next.js (frontend), integrated with OpenAI's language models to intelligently process and respond to user requests.
 
-Pull down your main repo branch by syncing local and remote hosts
+---
 
-Create venv and install packages:
-`python -m venv venv`
+## 🚀 Getting Started
 
-`cd venv/Scripts`
+Follow the steps below to get the application up and running locally.
 
-`activate`
+---
 
-`cd ../..`
+### 🔁 1. Clone the Repository
 
-`pip install -r  requirements.txt`
+```bash
+git clone https://github.com/Project-Rocket-IO/Judy-s-Repository.git
+cd Judy-s-Repository
+```
 
-### First Time Set Up
+---
 
-Set up the backend and the front end so the app is deployed:
+### 🔐 2. Add Your OpenAI API Key
 
-Frontend:
-`cd frontend`
-`npm run dev`
+In the file:
 
-Backend:
-`cd backend`
-`python manage.py runserver`
+```
+/backend/chatbot_app/views.py
+```
 
-Now to play around with models you will need the following active:
-HuggingFace Open Source Model List: 
-The `views.py` file under `/backend/chatbot_app/views.py`
+Look for the placeholder where the OpenAI token is needed and insert your key:
 
-![File Page](image.png)
+```python
+openai.api_key = "your-openai-token-here"
+```
 
-Under the above image, you will copy and paste a link from hugging face model to replace this line here. Go to hugging face > Models > Text Generation > Pick a model from the items list > Use this model > Transformer > Copy and paste that line of code:
+---
 
-Model List Page:
-![Sample Model Page](image-2.png)
+### 🐍 3. Set Up Python Environment
 
-Use Model Line to replace `views.py` above:
-![Line to Copy and Paste](image-3.png)
+Create a virtual environment and activate it:
 
-Make sure that the model type is `text-generation` and that the model has fully loaded into the app before running a request
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+Then install the backend dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+### 📦 4. Install Node.js & Frontend Dependencies
+
+Make sure Node.js and npm are installed:
+
+```bash
+npm -v
+node -v
+```
+
+If not, install them from [https://nodejs.org/](https://nodejs.org/).
+
+Then install the frontend framework (Next.js):
+
+```bash
+npm install next
+```
+
+And navigate to the frontend directory to install app dependencies:
+
+```bash
+cd frontend
+npm install
+```
+
+---
+
+### ⚙️ 5. Run the App
+
+#### ✅ Start the Django Backend
+
+From the `/backend` directory:
+
+```bash
+cd ../backend
+python manage.py runserver
+```
+
+#### 🧠 Start the Frontend
+
+From the `/frontend` directory:
+
+```bash
+cd ../frontend
+npm run dev
+```
+
+---
+
+##  🚀 NOTE
+
+You will have to create a client in order to create tickets. There are data models which need an intial so that the fk fields on other models can take and submit the item.
+
+---
+
+## 🎉 You're Live!
+
+Your Django + Next.js AI Agent Bot should now be running locally!  
+The frontend will typically be available at:  
+[http://localhost:3000](http://localhost:3000)  
+And the backend at:  
+[http://localhost:8000](http://localhost:8000)
+
+---
+
+## 💠 Tech Stack
+
+- **Backend**: Django, Django REST Framework
+- **AI Engine**: OpenAI API (GPT)
+- **Frontend**: Next.js (React)
+- **Environment**: Python, Node.js
+
+---
+
+## 📬 Questions or Suggestions?
+
+Feel free to open an issue or submit a pull request in the [GitHub repo](https://github.com/Project-Rocket-IO/Judy-s-Repository.git)!
+
+---
+
